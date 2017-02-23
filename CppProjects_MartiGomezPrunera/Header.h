@@ -3,7 +3,7 @@
 #include <ctime>
 
 //Enumeracion fuerte
-enum class Weapon {FISTS, GUN, SHOTGUN, REVOLVER, SNIPER, MACHINE_GUN, MAX };
+enum class Weapon {FISTS, GUN, SHOTGUN, REVOLVER, SNIPER, MACHINE_GUN, MAX};
 
 class Zombie; //Forward Declaration
 class Player
@@ -14,68 +14,70 @@ public:
 	int life;
 	Player();
 
-private:
-	void attack(Zombie &Z)
-	{
-		int damage;
-		switch (weapon)
-		{
-		case Weapon::FISTS:
-			damage = 0 * precision;
-			break;
-		case Weapon::GUN:
-			damage = 1 * precision;
-			break;
-		case Weapon::SHOTGUN:
-			damage = 2 * precision;
-			break;
-		case Weapon::REVOLVER:
-			damage = 3 * precision;
-			 
-			break;
-		case Weapon::SNIPER:
-			damage = 4 * precision;
-			break;
-		case Weapon::MACHINE_GUN:
-			damage = 5 * precision;
-			break;
-		default:
-			break;
-		}
-		Z.life = Z.life - damage;
-	}
+	void attack(Zombie &Z);
 	bool isAlive()
 	{
-
+			return life > 0;
 	}
 };
 
-Player::Player()
-{
-}
-
+Player::Player():weapon(static_cast <Weapon>(rand()%static_cast<int>(Weapon::MAX))),precision(((float)rand())/(float)1),life(100){}
 
 class Zombie
 {
 public:
-	int disntanceToPlayer;
+	int distanceToPlayer;
 	float speed;
 	float damage;
 	int life;
 	Zombie();
 
-private:
 	void attack(Player &P)
 	{
+		if (distanceToPlayer==0)
+		{
+			P.life = P.life - damage;
+		}
+		else
+		{
+			distanceToPlayer = distanceToPlayer - 1;
+		}
 
 	}
 	bool isAlive()
 	{
-
+		return life > 0;
 	}
 };
 
-Zombie::Zombie()
+void Player::attack(Zombie &Z)
 {
+	int damage;
+	switch (weapon)
+	{
+	case Weapon::FISTS:
+		damage = 0.0 * precision;
+		break;
+	case Weapon::GUN:
+		damage = 1.0 * precision;
+		break;
+	case Weapon::SHOTGUN:
+		damage = 2.0 * precision;
+		break;
+	case Weapon::REVOLVER:
+		damage = 3.0 * precision;
+		break;
+	case Weapon::SNIPER:
+		damage = 4.0 * precision;
+		break;
+	case Weapon::MACHINE_GUN:
+		damage = 5.0 * precision;
+		break;
+	default:
+		break;
+	}
+	Z.life = Z.life - damage;
 }
+
+Zombie::Zombie():distanceToPlayer(20+rand()%(200-20)),speed(((float)rand()) / (float)20),damage(((float)rand()) / (float)20),life(100){}
 
