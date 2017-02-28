@@ -12,7 +12,11 @@ public:
 	Weapon weapon;
 	float precision;
 	int life;
-	Player();
+
+	//Constructor prediseñado
+	Player() :weapon(static_cast <Weapon>(rand() % static_cast<int>(Weapon::MAX))),
+		precision(rand() % 10 / 10.f),
+		life(100) {};
 
 	void attack(Zombie &Z);
 	bool isAlive()
@@ -21,7 +25,6 @@ public:
 	}
 };
 
-Player::Player():weapon(static_cast <Weapon>(rand()%static_cast<int>(Weapon::MAX))),precision(((float)rand())/(float)1),life(100){}
 
 class Zombie
 {
@@ -30,7 +33,12 @@ public:
 	float speed;
 	float damage;
 	int life;
-	Zombie();
+
+	//Contructor prediseñado
+	Zombie() :distanceToPlayer(20 + rand() % (200 - 20)),
+			  speed(((float)rand()) / (float)20), 
+			  damage(((float)rand()) / (float)20), life(100) {};
+
 
 	void attack(Player &P)
 	{
@@ -52,7 +60,7 @@ public:
 
 void Player::attack(Zombie &Z)
 {
-	int damage;
+	/*int damage;
 	switch (weapon)
 	{
 	case Weapon::FISTS:
@@ -76,8 +84,11 @@ void Player::attack(Zombie &Z)
 	default:
 		break;
 	}
-	Z.life = Z.life - damage;
+	Z.life = Z.life - damage;*/  //Poco eficiente
+
+	Z.life -= static_cast<int>(static_cast<int>(weapon) * precision);	//Muy eficiente
+
+
 }
 
-Zombie::Zombie():distanceToPlayer(20+rand()%(200-20)),speed(((float)rand()) / (float)20),damage(((float)rand()) / (float)20),life(100){}
 
